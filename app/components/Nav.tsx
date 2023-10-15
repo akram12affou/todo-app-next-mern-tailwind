@@ -2,7 +2,10 @@
 import {Fragment, useState ,useEffect ,useRef, MutableRefObject} from 'react'
 import {FaBars} from 'react-icons/fa'
 import Link from 'next/link';
+import {useContext} from 'react'
+import { AuthContext } from '../Context/authContext';
 export default function NavBar(){
+  const {user} = useContext(AuthContext)
   const [open,setOpen] = useState<boolean>(false);
   const section: MutableRefObject<any>  = useRef()
   useEffect(() => {
@@ -16,7 +19,8 @@ export default function NavBar(){
     <Fragment>
       <div className='p-7 flex items-center justify-between mx-auto bg-slate-300 h-12'>
        <div className="text-2xl font-bold">
-        Todo App
+        Todo App 
+        {/* {JSON.stringify(user)} */}
        </div>
        <div className="hidden items-center sm:w-1/3 sm:flex justify-evenly ">
        <Link href='/'><button className="hover:opacity-80">Home</button></Link>
