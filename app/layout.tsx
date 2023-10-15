@@ -1,6 +1,7 @@
 import '../app/globals.css';
 import {Poppins} from 'next/font/google'
 import Nav from './components/Nav'
+import {TodosContextProvider} from '../app/Context/todosContext'
 import {AuthContextProvider} from '../app/Context/authContext'
 export const metadata = {
   title: 'Acme Rockets',
@@ -21,11 +22,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <TodosContextProvider>
         <AuthContextProvider>
         <div className={poppins.className}>
           <Nav/>
         {children}</div>
         </AuthContextProvider>
+        </TodosContextProvider>
         </body>
     </html>
   )

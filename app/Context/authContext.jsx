@@ -1,13 +1,11 @@
 'use client';
 import { createContext,useReducer } from "react";
-// import { useGetUserInfo } from "../hooks/getUserInfo";
 import { useEffect } from "react";
-// const user = useGetUserInfo();
 
 const initialState = {
     loading : false,
     error : null,
-    user : JSON.parse(localStorage.getItem("user")) || null
+    user :JSON.parse(localStorage.getItem("user")) || null
 };
 export const AuthContext = createContext(initialState);
 

@@ -1,12 +1,12 @@
 'use client'
 
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useCookies } from "react-cookie";
 import { AuthContext } from "../Context/authContext";
 import React, { useState , useContext } from "react";
 import axios from "axios";
 function Loginpage() {
-  const router = useRouter
+  const router = useRouter();
   const {loading ,error , user, dispatch } = useContext<any>(AuthContext)
   const [register , setRegister] =useState(true)
   const [cookie, setCookie, _] = useCookies(["acces-token"]);
@@ -14,8 +14,6 @@ function Loginpage() {
   const [email,setEmail] = useState('')
   const [password , setPassword] = useState('')
   const auth = () => {
-    console.log(loading ,error , user)
-    
     if(register){
       dispatch({type:"LOGIN_START"})
       axios.post('http://localhost:3003/user/register' , 
@@ -24,17 +22,25 @@ function Loginpage() {
         email, 
         password
       }).then(res => {
-        console.log(res)
         dispatch({type:"LOGIN_SUCCES" , payload:res.data.newUser})
         setCookie("acces-token", res.data.token);
         router.push('/')
       }).catch(err => {
-        dispatch({type:"LOGIN_FAILED" , payload:err.responce?.data || 'Somthing Went Wrong'})
-        console.log(err)
+        dispatch({type:"LOGIN_FAILED" , payload:err.response.data || 'Somthing Went Wrong'})
       })
     }else{
-
-      console.log('login')
+      dispatch({type:"LOGIN_START"})
+      axios.post('http://localhost:3003/user/login' , {
+        email,
+        password
+      }).then(res => {
+        dispatch({type:"LOGIN_SUCCES" , payload:res.data.user})
+        setCookie("acces-token", res.data.token);
+        router.push('/');
+      }).catch(err => {
+        dispatch({type:"LOGIN_FAILED" , payload:err.response.data || 'Somthing Went Wrong'})
+        console.log(err)
+      })
     } 
   }
   return (

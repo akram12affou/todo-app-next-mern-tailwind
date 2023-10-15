@@ -9,7 +9,7 @@ const connectDB =async () => {
       ).then(res => {
         console.log('mongoo conected') 
      }).catch(err => {
-      console.log(err)   
+      console.log(err)    
      })       
 }
 export  {connectDB}
