@@ -2,11 +2,15 @@
 import {Fragment, useState ,useEffect ,useRef, MutableRefObject} from 'react'
 import {FaBars} from 'react-icons/fa'
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useCookies } from 'react-cookie';
 import {useContext} from 'react'
+import { TodosContext } from '../Context/todosContext';
 import { AuthContext } from '../Context/authContext';
 export default function NavBar(){
+  const router = useRouter()
   const {user, dispatch} = useContext<any>(AuthContext)
+  const { dispatcht} = useContext<any>(TodosContext)
   const [cookie, setCookie , removeCookie] = useCookies(['acces-token']) 
   const [open,setOpen] = useState<boolean>(false);
   const section: MutableRefObject<any>  = useRef()
@@ -19,7 +23,9 @@ export default function NavBar(){
   },[open])
   const logout = () => {
     removeCookie('acces-token');
-    dispatch({type : "LOGOUT"})
+    dispatch({type : "LOGOUT"});
+    dispatcht({type : "REFRECH"});
+    
   }
   return (
     <Fragment>

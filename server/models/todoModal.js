@@ -16,10 +16,10 @@ const todoSchema = mongoose.Schema({
         required:true,
         default : false
     },
-    // userId:{
-    //     type:  mongoose.Schema.Types.ObjectId,
-    //     required: true
-    // }
+    userId:{
+        type:  mongoose.Schema.Types.ObjectId,
+        required: true
+    }
 })
 const todoModal = mongoose.model('todos' , todoSchema)
 export default todoModal
