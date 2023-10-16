@@ -13,20 +13,29 @@ import { useCookies } from "react-cookie";
     useEffect(() => {
        if(!user) return;
         axios.get('http://localhost:3003/todos/'+user?._id).then(res => {
-          dispatcht({payload:res.data, type:"FETCHTODOS"})
+          dispatcht({payload:res.data, type:"FETCHTODOS"});
         }).catch(err => {
-          console.log(err)
+          console.log(err);
         })
     },[])
     const done = (e: string) => { 
       dispatcht({payload:e, type:"TODODONE"})
-      axios.put('http://localhost:3003/todos/'+e).then(res => {
+      console.log(cookie['acces-token'])
+      axios.put('http://localhost:3003/todos/'+e,{},  {
+        headers : {
+          token : cookie['acces-token']
+        }}).then(res => {
         console.log(res.data);
+      }).catch((err) => {
+        console.log(err)
       })
     }
     const deleteTodo = (id) => {
       dispatcht({payload:id , type:"DELETETODO"})
-      axios.delete('http://localhost:3003/todos/' + id).then(res => {
+      axios.delete('http://localhost:3003/todos/' + id,   {
+        headers : {
+          token : cookie['acces-token']
+        }}).then(res => {
         console.log(res)
       }).catch(err => {
         console.log(err)
@@ -37,7 +46,11 @@ import { useCookies } from "react-cookie";
          {
           todoname:todoName,
           userId:user._id 
-         }).then(res => {
+         },
+         {
+          headers : {
+            token : cookie['acces-token']
+          }}).then(res => {
           dispatcht({type:'ADDTODO',payload:res.data});
         }
          ).catch(err => { 
